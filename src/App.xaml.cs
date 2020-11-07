@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using i18nEditor.Views;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace i18nEditor
@@ -8,19 +10,27 @@ namespace i18nEditor
     /// </summary>
     public partial class App : Application
     {
-        private ServiceProvider _serviceProvider;
+        private readonly ServiceProvider _serviceProvider;
+        public IServiceProvider ServiceProvider => _serviceProvider;
 
         public App()
         {
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddSingleton<MainWindow>();
+
+            serviceCollection.RegisterViewModels();
+            serviceCollection.RegisterFactories();
+            serviceCollection.RegisterNavigation();
+            serviceCollection.RegisterWindowAndPages();
+            serviceCollection.RegisterServices();
+
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
-        private void App_OnStartup(object sender, StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
+            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
+            base.OnStartup(e);
         }
     }
 }

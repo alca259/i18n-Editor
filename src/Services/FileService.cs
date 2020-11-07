@@ -1,4 +1,4 @@
-﻿using i18nEditor.IServices;
+﻿using i18nEditor.Contracts;
 
 namespace i18nEditor.Helper
 {

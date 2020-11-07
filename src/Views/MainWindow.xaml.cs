@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace i18nEditor
+namespace i18nEditor.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

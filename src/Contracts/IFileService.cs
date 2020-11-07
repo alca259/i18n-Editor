@@ -1,4 +1,4 @@
-﻿namespace i18nEditor.IServices
+﻿namespace i18nEditor.Contracts
 {
     public interface IFileService
     {
