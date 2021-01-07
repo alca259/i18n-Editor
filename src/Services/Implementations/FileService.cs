@@ -1,6 +1,4 @@
-﻿using i18nEditor.Contracts;
-
-namespace i18nEditor.Helper
+﻿namespace i18nEditor.Services.Implementations
 {
     public class FileService : IFileService
     {
