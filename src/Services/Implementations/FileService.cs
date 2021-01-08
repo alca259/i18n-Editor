@@ -1,7 +1,11 @@
 ﻿using i18nEditor.DTOs;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace i18nEditor.Services.Implementations
 {
@@ -44,6 +48,15 @@ namespace i18nEditor.Services.Implementations
 
                 yield return dtoItem;
             }
+        }
+
+        public async Task<Dictionary<string, string>> GetJsonData(FileKeyPathDto fileData)
+        {
+            if (!File.Exists(fileData.FilePath)) return new Dictionary<string, string>();
+
+            var fileString = await File.ReadAllTextAsync(fileData.FilePath, Encoding.Latin1);
+            var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(fileString);
+            return data.OrderBy(o => o.Key).ToDictionary(k => k.Key, v => v.Value);
         }
     }
 }

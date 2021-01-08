@@ -40,10 +40,10 @@ namespace i18nEditor
             this.currentFile = new System.Windows.Forms.ComboBox();
             this.panelMiddle = new System.Windows.Forms.Panel();
             this.dataGridKeys = new System.Windows.Forms.DataGridView();
-            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelBottom = new System.Windows.Forms.Panel();
             this.contentBox = new System.Windows.Forms.TextBox();
+            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panelTop.SuspendLayout();
             this.panelMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).BeginInit();
@@ -179,7 +179,7 @@ namespace i18nEditor
             this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMiddle.Location = new System.Drawing.Point(0, 70);
             this.panelMiddle.Name = "panelMiddle";
-            this.panelMiddle.Size = new System.Drawing.Size(800, 150);
+            this.panelMiddle.Size = new System.Drawing.Size(800, 250);
             this.panelMiddle.TabIndex = 1;
             // 
             // dataGridKeys
@@ -188,7 +188,8 @@ namespace i18nEditor
             this.dataGridKeys.AllowUserToDeleteRows = false;
             this.dataGridKeys.AllowUserToResizeColumns = false;
             this.dataGridKeys.AllowUserToResizeRows = false;
-            this.dataGridKeys.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.dataGridKeys.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridKeys.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dataGridKeys.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
@@ -197,41 +198,24 @@ namespace i18nEditor
             this.dataGridKeys.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Key,
             this.Content});
-            this.dataGridKeys.Location = new System.Drawing.Point(12, 55);
+            this.dataGridKeys.Location = new System.Drawing.Point(12, 41);
             this.dataGridKeys.MultiSelect = false;
             this.dataGridKeys.Name = "dataGridKeys";
             this.dataGridKeys.ReadOnly = true;
             this.dataGridKeys.RowTemplate.Height = 25;
             this.dataGridKeys.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridKeys.ShowEditingIcon = false;
-            this.dataGridKeys.Size = new System.Drawing.Size(773, 80);
+            this.dataGridKeys.Size = new System.Drawing.Size(773, 194);
             this.dataGridKeys.TabIndex = 0;
             this.dataGridKeys.TabStop = false;
-            // 
-            // Key
-            // 
-            this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Key.HeaderText = "Clave";
-            this.Key.MinimumWidth = 150;
-            this.Key.Name = "Key";
-            this.Key.ReadOnly = true;
-            this.Key.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // Content
-            // 
-            this.Content.HeaderText = "Contenido";
-            this.Content.MinimumWidth = 300;
-            this.Content.Name = "Content";
-            this.Content.ReadOnly = true;
-            this.Content.Width = 300;
             // 
             // panelBottom
             // 
             this.panelBottom.Controls.Add(this.contentBox);
             this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 220);
+            this.panelBottom.Location = new System.Drawing.Point(0, 320);
             this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(800, 341);
+            this.panelBottom.Size = new System.Drawing.Size(800, 241);
             this.panelBottom.TabIndex = 2;
             // 
             // contentBox
@@ -242,8 +226,27 @@ namespace i18nEditor
             this.contentBox.Location = new System.Drawing.Point(12, 6);
             this.contentBox.Multiline = true;
             this.contentBox.Name = "contentBox";
-            this.contentBox.Size = new System.Drawing.Size(773, 323);
+            this.contentBox.Size = new System.Drawing.Size(773, 223);
             this.contentBox.TabIndex = 0;
+            // 
+            // Key
+            // 
+            this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Key.FillWeight = 70F;
+            this.Key.HeaderText = "Clave";
+            this.Key.MinimumWidth = 430;
+            this.Key.Name = "Key";
+            this.Key.ReadOnly = true;
+            this.Key.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // Content
+            // 
+            this.Content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Content.FillWeight = 30F;
+            this.Content.HeaderText = "Contenido";
+            this.Content.MinimumWidth = 300;
+            this.Content.Name = "Content";
+            this.Content.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -281,8 +284,8 @@ namespace i18nEditor
         private FontAwesome.Sharp.IconButton btnSaveToDisk;
         private FontAwesome.Sharp.IconButton btnNewLanguage;
         private System.Windows.Forms.DataGridView dataGridKeys;
+        private System.Windows.Forms.TextBox contentBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Content;
-        private System.Windows.Forms.TextBox contentBox;
     }
 }
