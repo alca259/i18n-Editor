@@ -1,7 +1,9 @@
 ﻿using i18nEditor.DTOs;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -57,6 +59,37 @@ namespace i18nEditor.Services.Implementations
             var fileString = await File.ReadAllTextAsync(fileData.FilePath, Encoding.Latin1);
             var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(fileString);
             return data.OrderBy(o => o.Key).ToDictionary(k => k.Key, v => v.Value);
+        }
+
+        public async Task SaveJsonData(FileKeyPathDto fileData, IDictionary<string, string> data)
+        {
+            var saveData = data.OrderBy(o => o.Key).ToList();
+            var jsonSettings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new DefaultContractResolver()
+            };
+
+            var jsonData = CustomJsonSerialize(data);
+            await File.WriteAllTextAsync(fileData.FilePath, jsonData, Encoding.Latin1);
+        }
+
+        private string CustomJsonSerialize<T>(T value, char indentChar = ' ', int indentation = 4)
+        {
+            var sb = new StringBuilder();
+            var jsonSerializer = JsonSerializer.CreateDefault();
+
+            using var sw = new StringWriter(sb, CultureInfo.InvariantCulture);
+            using var jw = new JsonTextWriter(sw)
+            {
+                Formatting = Formatting.Indented,
+                IndentChar = indentChar,
+                Indentation = indentation
+            };
+
+            jsonSerializer.Serialize(jw, value, typeof(T));
+
+            return sw.ToString();
         }
     }
 }

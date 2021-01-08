@@ -204,7 +204,10 @@ namespace i18nEditor
             this.dataGridKeys.ReadOnly = true;
             this.dataGridKeys.RowTemplate.Height = 25;
             this.dataGridKeys.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridKeys.ShowCellErrors = false;
+            this.dataGridKeys.ShowCellToolTips = false;
             this.dataGridKeys.ShowEditingIcon = false;
+            this.dataGridKeys.ShowRowErrors = false;
             this.dataGridKeys.Size = new System.Drawing.Size(773, 194);
             this.dataGridKeys.TabIndex = 0;
             this.dataGridKeys.TabStop = false;
@@ -234,19 +237,23 @@ namespace i18nEditor
             this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Key.FillWeight = 70F;
             this.Key.HeaderText = "Clave";
+            this.Key.MaxInputLength = 1000;
             this.Key.MinimumWidth = 430;
             this.Key.Name = "Key";
             this.Key.ReadOnly = true;
-            this.Key.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Key.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Key.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Content
             // 
             this.Content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Content.FillWeight = 30F;
             this.Content.HeaderText = "Contenido";
+            this.Content.MaxInputLength = 2000;
             this.Content.MinimumWidth = 300;
             this.Content.Name = "Content";
             this.Content.ReadOnly = true;
+            this.Content.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MainForm
             // 

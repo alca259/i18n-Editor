@@ -15,10 +15,8 @@ namespace i18nEditor
 {
     public partial class MainForm : Form
     {
-        private int PageSize = 10; // rows per page
-        private int CurrentPageIndex = 1;
-        private int TotalPage;
-
+        private int _lastRowIndex = -1;
+        private bool _loopFlag = false;
         private readonly IFileService _fileService;
         private readonly ILogger<MainForm> _logger;
 
@@ -34,7 +32,6 @@ namespace i18nEditor
             currentFile.AutoCompleteMode = AutoCompleteMode.None;
             currentLanguage.AutoCompleteMode = AutoCompleteMode.None;
 
-            currentFile.DataSourceChanged += CurrentFile_DataSourceChanged;
             currentFile.SelectedIndexChanged += CurrentFile_SelectedIndexChanged;
             currentLanguage.SelectedIndexChanged += CurrentLanguage_SelectedIndexChanged;
 
@@ -51,20 +48,22 @@ namespace i18nEditor
         #region Grid events
         private void DataGridKeys_SelectionChanged(object sender, EventArgs e)
         {
-            Setter(100);
-
-            if (dataGridKeys.SelectedRows.Count <= 0) return;
-
-            var cellValue = dataGridKeys.SelectedRows[0].Cells[1].Value?.ToString();
-            cellValue = cellValue?.Replace("\n", Environment.NewLine);
-            contentBox.Text = cellValue;
+            SetContentBoxToValue();
+            Reset(resetContent: true);
+            SetValueToContentBox();
         }
         #endregion
 
         #region Button events
         private void BtnSaveToDisk_Click(object sender, EventArgs e)
         {
-            
+            if (FileSet == null)
+            {
+                MessageBox.Show("Selecciona un fichero y un idioma");
+                return;
+            }
+
+            SaveToDisk();
         }
 
         private void BtnNewFile_Click(object sender, EventArgs e)
@@ -85,33 +84,14 @@ namespace i18nEditor
                 return;
             }
 
-            Task.Factory.StartNew(async () =>
-            {
-                var data = await _fileService.GetJsonData(FileSet);
-                dataGridKeys.Invoke((MethodInvoker)delegate
-                {
-                    Setter(30);
-
-                    foreach (var item in data)
-                    {
-                        var row = dataGridKeys.Rows.Add();
-                        dataGridKeys.Rows[row].Cells[0].Value = item.Key;
-                        dataGridKeys.Rows[row].Cells[1].Value = item.Value;
-                    }
-                });
-            });
+            ReloadFromDisk();
         }
         #endregion
 
         #region Combo events
-        private void CurrentFile_DataSourceChanged(object sender, EventArgs e)
-        {
-            Setter(0);
-        }
-
         private void CurrentFile_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Setter(20);
+            Reset(resetContent: true, resetGrid: true, resetLanguage: true);
 
             if (string.IsNullOrEmpty(currentFile.Text)) return;
 
@@ -127,13 +107,14 @@ namespace i18nEditor
 
         private void CurrentLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Setter(30);
+            Reset(resetContent: true, resetGrid: true);
+            ReloadFromDisk();
         }
         #endregion
 
         private void RefreshFiles()
         {
-            Setter(0);
+            Reset(resetContent: true, resetGrid: true, resetLanguage: true, resetFile: true);
 
             FilesFound = _fileService.GetJsonFiles().ToArray();
             if (!FilesFound.Any()) return;
@@ -146,32 +127,122 @@ namespace i18nEditor
             currentFile.DataSource = currentFileSource;
         }
 
-        private void Setter(int level = 0)
+        private void ReloadFromDisk()
+        {
+            SetFileSet();
+            if (FileSet == null) return;
+
+            Task.Factory.StartNew(async () =>
+            {
+                var data = await _fileService.GetJsonData(FileSet);
+                dataGridKeys.Invoke((MethodInvoker)delegate
+                {
+                    Reset(resetContent: true, resetGrid: true);
+
+                    foreach (var item in data)
+                    {
+                        var row = dataGridKeys.Rows.Add();
+                        dataGridKeys.Rows[row].Cells[0].Value = item.Key;
+                        dataGridKeys.Rows[row].Cells[1].Value = item.Value;
+                    }
+
+                    SetValueToContentBox();
+                });
+            });
+        }
+
+        private void SaveToDisk()
+        {
+            if (FileSet == null) return;
+
+            var data = ConvertDataGridToDictionary();
+            Task.Factory.StartNew(async () =>
+            {
+                await _fileService.SaveJsonData(FileSet, data);
+            });
+        }
+
+        private IDictionary<string, string> ConvertDataGridToDictionary()
+        {
+            var data = new Dictionary<string, string>();
+
+            foreach (DataGridViewRow row in dataGridKeys.Rows)
+            {
+                var key = row.Cells[0].Value?.ToString();
+                var value = row.Cells[1].Value?.ToString();
+                data.Add(key, value);
+            }
+
+            return data;
+        }
+
+        private void Reset(bool resetContent = false, bool resetGrid = false, bool resetLanguage = false, bool resetFile = false)
         {
             if (InvokeRequired)
             {
                 Invoke((MethodInvoker)delegate
                 {
-                    SetterOut(level);
+                    ResetOut(resetContent, resetGrid, resetLanguage, resetFile);
                 });
                 return;
             }
 
-            SetterOut(level);
+            ResetOut(resetContent, resetGrid, resetLanguage, resetFile);
         }
 
-        private void SetterOut(int level)
+        private void ResetOut(bool resetContent = false, bool resetGrid = false, bool resetLanguage = false, bool resetFile = false)
         {
-            if (level <= 100) contentBox.Text = string.Empty;
+            if (_loopFlag) return;
+            _loopFlag = true;
 
-            if (level <= 90) dataGridKeys.Rows.Clear();
+            if (resetContent)
+            {
+                contentBox.Text = string.Empty;
+            }
 
-            if (level <= 20) currentLanguage.DataSource = new List<string>();
-            if (level <= 20) currentLanguage.Text = string.Empty;
+            if (resetGrid)
+            {
+                _lastRowIndex = -1;
+                if (dataGridKeys.Rows.Count > 0) dataGridKeys.Rows.Clear();
+            }
 
-            if (level <= 10) currentFile.Text = string.Empty;
+            if (resetLanguage)
+            {
+                currentLanguage.DataSource = new List<string>();
+                currentLanguage.Text = string.Empty;
+            }
 
+            if (resetFile)
+            {
+                currentFile.Text = string.Empty;
+            }
+
+            _loopFlag = false;
+        }
+
+        private void SetFileSet()
+        {
+            // Set current file set
             FileSet = FilesFound.FirstOrDefault(f => f.DisplayName == currentFile.Text && f.Language == currentLanguage.Text);
+        }
+
+        private void SetValueToContentBox()
+        {
+            if (dataGridKeys.SelectedRows.Count <= 0) return;
+
+            var row = dataGridKeys.SelectedRows[0];
+            _lastRowIndex = row.Index;
+            var cellValue = row.Cells[1].Value?.ToString();
+            cellValue = cellValue?.Replace("\n", Environment.NewLine);
+            contentBox.Text = cellValue;
+        }
+
+        private void SetContentBoxToValue()
+        {
+            if (_lastRowIndex >= 0)
+            {
+                dataGridKeys.Rows[_lastRowIndex].Cells[1].Value = contentBox.Text?.Replace(Environment.NewLine, "\n");
+            }
         }
     }
 }
