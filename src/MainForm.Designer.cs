@@ -30,8 +30,8 @@ namespace i18nEditor
         private void InitializeComponent()
         {
             this.panelTop = new System.Windows.Forms.Panel();
-            this.btnNewLanguage = new FontAwesome.Sharp.IconButton();
             this.btnNewFile = new FontAwesome.Sharp.IconButton();
+            this.btnNewKey = new FontAwesome.Sharp.IconButton();
             this.btnReloadFromDisk = new FontAwesome.Sharp.IconButton();
             this.btnSaveToDisk = new FontAwesome.Sharp.IconButton();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,10 +40,10 @@ namespace i18nEditor
             this.currentFile = new System.Windows.Forms.ComboBox();
             this.panelMiddle = new System.Windows.Forms.Panel();
             this.dataGridKeys = new System.Windows.Forms.DataGridView();
-            this.panelBottom = new System.Windows.Forms.Panel();
-            this.contentBox = new System.Windows.Forms.TextBox();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panelBottom = new System.Windows.Forms.Panel();
+            this.contentBox = new System.Windows.Forms.TextBox();
             this.panelTop.SuspendLayout();
             this.panelMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).BeginInit();
@@ -52,7 +52,6 @@ namespace i18nEditor
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.btnNewLanguage);
             this.panelTop.Controls.Add(this.btnNewFile);
             this.panelTop.Controls.Add(this.btnReloadFromDisk);
             this.panelTop.Controls.Add(this.btnSaveToDisk);
@@ -66,38 +65,38 @@ namespace i18nEditor
             this.panelTop.Size = new System.Drawing.Size(800, 70);
             this.panelTop.TabIndex = 0;
             // 
-            // btnNewLanguage
-            // 
-            this.btnNewLanguage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnNewLanguage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnNewLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewLanguage.IconChar = FontAwesome.Sharp.IconChar.Flag;
-            this.btnNewLanguage.IconColor = System.Drawing.Color.Red;
-            this.btnNewLanguage.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.btnNewLanguage.IconSize = 24;
-            this.btnNewLanguage.Location = new System.Drawing.Point(399, 25);
-            this.btnNewLanguage.Name = "btnNewLanguage";
-            this.btnNewLanguage.Size = new System.Drawing.Size(32, 32);
-            this.btnNewLanguage.TabIndex = 11;
-            this.btnNewLanguage.TabStop = false;
-            this.btnNewLanguage.UseVisualStyleBackColor = true;
-            // 
             // btnNewFile
             // 
-            this.btnNewFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNewFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.btnNewFile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnNewFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewFile.IconChar = FontAwesome.Sharp.IconChar.PlusCircle;
-            this.btnNewFile.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.btnNewFile.IconChar = FontAwesome.Sharp.IconChar.FileAlt;
+            this.btnNewFile.IconColor = System.Drawing.Color.Red;
             this.btnNewFile.IconFont = FontAwesome.Sharp.IconFont.Solid;
             this.btnNewFile.IconSize = 24;
-            this.btnNewFile.Location = new System.Drawing.Point(753, 25);
+            this.btnNewFile.Location = new System.Drawing.Point(399, 25);
             this.btnNewFile.Name = "btnNewFile";
             this.btnNewFile.Size = new System.Drawing.Size(32, 32);
-            this.btnNewFile.TabIndex = 10;
+            this.btnNewFile.TabIndex = 11;
             this.btnNewFile.TabStop = false;
             this.btnNewFile.UseVisualStyleBackColor = true;
+            // 
+            // btnNewKey
+            // 
+            this.btnNewKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNewKey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnNewKey.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewKey.IconChar = FontAwesome.Sharp.IconChar.PlusCircle;
+            this.btnNewKey.IconColor = System.Drawing.Color.FromArgb(((int)(((byte)(129)))), ((int)(((byte)(129)))), ((int)(((byte)(129)))));
+            this.btnNewKey.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.btnNewKey.IconSize = 24;
+            this.btnNewKey.Location = new System.Drawing.Point(753, 6);
+            this.btnNewKey.Name = "btnNewKey";
+            this.btnNewKey.Size = new System.Drawing.Size(32, 32);
+            this.btnNewKey.TabIndex = 10;
+            this.btnNewKey.TabStop = false;
+            this.btnNewKey.UseVisualStyleBackColor = true;
             // 
             // btnReloadFromDisk
             // 
@@ -176,6 +175,7 @@ namespace i18nEditor
             // panelMiddle
             // 
             this.panelMiddle.Controls.Add(this.dataGridKeys);
+            this.panelMiddle.Controls.Add(this.btnNewKey);
             this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelMiddle.Location = new System.Drawing.Point(0, 70);
             this.panelMiddle.Name = "panelMiddle";
@@ -212,26 +212,6 @@ namespace i18nEditor
             this.dataGridKeys.TabIndex = 0;
             this.dataGridKeys.TabStop = false;
             // 
-            // panelBottom
-            // 
-            this.panelBottom.Controls.Add(this.contentBox);
-            this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelBottom.Location = new System.Drawing.Point(0, 320);
-            this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(800, 241);
-            this.panelBottom.TabIndex = 2;
-            // 
-            // contentBox
-            // 
-            this.contentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.contentBox.Location = new System.Drawing.Point(12, 6);
-            this.contentBox.Multiline = true;
-            this.contentBox.Name = "contentBox";
-            this.contentBox.Size = new System.Drawing.Size(773, 223);
-            this.contentBox.TabIndex = 0;
-            // 
             // Key
             // 
             this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -254,6 +234,26 @@ namespace i18nEditor
             this.Content.Name = "Content";
             this.Content.ReadOnly = true;
             this.Content.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // panelBottom
+            // 
+            this.panelBottom.Controls.Add(this.contentBox);
+            this.panelBottom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelBottom.Location = new System.Drawing.Point(0, 320);
+            this.panelBottom.Name = "panelBottom";
+            this.panelBottom.Size = new System.Drawing.Size(800, 241);
+            this.panelBottom.TabIndex = 2;
+            // 
+            // contentBox
+            // 
+            this.contentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.contentBox.Location = new System.Drawing.Point(12, 6);
+            this.contentBox.Multiline = true;
+            this.contentBox.Name = "contentBox";
+            this.contentBox.Size = new System.Drawing.Size(773, 223);
+            this.contentBox.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -294,5 +294,6 @@ namespace i18nEditor
         private System.Windows.Forms.TextBox contentBox;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Content;
+        private FontAwesome.Sharp.IconButton btnNewKey;
     }
 }
