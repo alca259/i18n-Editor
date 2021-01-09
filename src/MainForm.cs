@@ -3,11 +3,8 @@ using i18nEditor.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -36,8 +33,8 @@ namespace i18nEditor
             currentLanguage.SelectedIndexChanged += CurrentLanguage_SelectedIndexChanged;
 
             btnReloadFromDisk.Click += BtnReloadFromDisk_Click;
-            btnNewLanguage.Click += BtnNewLanguage_Click;
             btnNewFile.Click += BtnNewFile_Click;
+            btnNewKey.Click += BtnNewKey_Click;
             btnSaveToDisk.Click += BtnSaveToDisk_Click;
 
             dataGridKeys.SelectionChanged += DataGridKeys_SelectionChanged;
@@ -68,12 +65,54 @@ namespace i18nEditor
 
         private void BtnNewFile_Click(object sender, EventArgs e)
         {
-            
+            var newFileForm = new NewFileForm();
+            var result = newFileForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var name = newFileForm.FileName.Trim();
+                var language = newFileForm.Language.Trim();
+                Task.Factory.StartNew(async () =>
+                {
+                    await _fileService.NewFile(name, language);
+                    RefreshFiles();
+                    ReloadFromDisk();
+                });
+            }
         }
 
-        private void BtnNewLanguage_Click(object sender, EventArgs e)
+        private void BtnNewKey_Click(object sender, EventArgs e)
         {
-            
+            if (FileSet == null)
+            {
+                MessageBox.Show("Selecciona un fichero y un idioma");
+                return;
+            }
+
+            var newFileForm = new NewKeyForm();
+            var result = newFileForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                var name = newFileForm.KeyName.Trim();
+
+                // Comprobamos que no esté ya
+                foreach (DataGridViewRow row in dataGridKeys.Rows)
+                {
+                    var key = row.Cells[0].Value?.ToString();
+                    if (key != null && key.ToLower() == name.ToLower())
+                    {
+                        MessageBox.Show("Esa clave ya existe");
+                        return;
+                    }
+                }
+
+                dataGridKeys.Rows.Add(name, "");
+                var data = ConvertDataGridToDictionary();
+                Task.Factory.StartNew(async () =>
+                {
+                    await _fileService.SaveJsonData(FileSet, data);
+                    ReloadFromDisk();
+                });
+            }
         }
 
         private void BtnReloadFromDisk_Click(object sender, EventArgs e)
@@ -124,7 +163,18 @@ namespace i18nEditor
                 string.Empty
             };
             currentFileSource.AddRange(FilesFound.Select(s => s.DisplayName).Distinct().OrderBy(o => o));
-            currentFile.DataSource = currentFileSource;
+
+            if (currentFile.InvokeRequired)
+            {
+                currentFile.Invoke((MethodInvoker)delegate
+                {
+                    currentFile.DataSource = currentFileSource;
+                });
+            }
+            else
+            {
+                currentFile.DataSource = currentFileSource;
+            }
         }
 
         private void ReloadFromDisk()

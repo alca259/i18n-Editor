@@ -74,6 +74,15 @@ namespace i18nEditor.Services.Implementations
             await File.WriteAllTextAsync(fileData.FilePath, jsonData, Encoding.Latin1);
         }
 
+        public async Task NewFile(string name, string language)
+        {
+            var fileName = $"{name}.{language}.json";
+            var filePath = Path.Combine(Options.FolderPath, fileName);
+            if (File.Exists(filePath)) return;
+
+            await File.WriteAllTextAsync(filePath, "{}", Encoding.Latin1);
+        }
+
         private string CustomJsonSerialize<T>(T value, char indentChar = ' ', int indentation = 4)
         {
             var sb = new StringBuilder();
@@ -91,5 +100,6 @@ namespace i18nEditor.Services.Implementations
 
             return sw.ToString();
         }
+
     }
 }
