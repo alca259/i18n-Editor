@@ -45,27 +45,22 @@ namespace i18nEditor
             contentBox.KeyUp += ContentBox_KeyUp;
             contentBox.TextChanged += ContentBox_TextChanged;
 
+            dataGridKeys.CellMouseDown += DataGridKeys_CellMouseDown;
+
             RefreshFiles();
         }
 
-        private string CountTextParameters(string text)
+        #region Copy key cell event
+        private void DataGridKeys_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (string.IsNullOrEmpty(text)) return "0";
-            var matches = ParametersRegex.Matches(text);
-            var uniqueMatches = matches
-                .OfType<Match>()
-                .Select(m => m.Value)
-                .Distinct()
-                .Count();
-
-            return uniqueMatches.ToString();
+            if (e.RowIndex <= -1) return;
+            if (e.Button != MouseButtons.Right) return;
+            var key = dataGridKeys.Rows[e.RowIndex].Cells[1].Value?.ToString();
+            Clipboard.SetDataObject(key, false);
         }
+        #endregion
 
-        private void SetLabelCountCharacters()
-        {
-            lblCharacterCount.Text = $"{contentBox.Text?.Length ?? 0} / 2048";
-        }
-
+        #region Content box events
         private void ContentBox_TextChanged(object sender, EventArgs e)
         {
             SetLabelCountCharacters();
@@ -80,6 +75,7 @@ namespace i18nEditor
         {
             SetContentBoxToValue();
         }
+        #endregion
 
         #region Grid events
         private void DataGridKeys_SelectionChanged(object sender, EventArgs e)
@@ -195,6 +191,7 @@ namespace i18nEditor
         }
         #endregion
 
+        #region Aux functions
         private void RefreshFiles()
         {
             Reset(resetContent: true, resetGrid: true, resetLanguage: true, resetFile: true);
@@ -358,5 +355,24 @@ namespace i18nEditor
                 dataGridKeys.Rows[_lastRowIndex].Cells[2].Value = settedText;
             }
         }
+
+        private string CountTextParameters(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return "0";
+            var matches = ParametersRegex.Matches(text);
+            var uniqueMatches = matches
+                .OfType<Match>()
+                .Select(m => m.Value)
+                .Distinct()
+                .Count();
+
+            return uniqueMatches.ToString();
+        }
+
+        private void SetLabelCountCharacters()
+        {
+            lblCharacterCount.Text = $"{contentBox.Text?.Length ?? 0} / 2048";
+        }
+        #endregion
     }
 }
