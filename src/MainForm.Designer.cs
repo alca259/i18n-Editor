@@ -29,6 +29,7 @@ namespace i18nEditor
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelTop = new System.Windows.Forms.Panel();
             this.btnNewFile = new FontAwesome.Sharp.IconButton();
             this.btnReloadFromDisk = new FontAwesome.Sharp.IconButton();
@@ -172,6 +173,7 @@ namespace i18nEditor
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.contentBox.Location = new System.Drawing.Point(12, 6);
+            this.contentBox.MaxLength = 2048;
             this.contentBox.Multiline = true;
             this.contentBox.Name = "contentBox";
             this.contentBox.Size = new System.Drawing.Size(773, 223);
@@ -267,6 +269,7 @@ namespace i18nEditor
             this.Controls.Add(this.panelMiddle);
             this.Controls.Add(this.panelBottom);
             this.Controls.Add(this.panelTop);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
