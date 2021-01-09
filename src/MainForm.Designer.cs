@@ -31,29 +31,35 @@ namespace i18nEditor
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.panelTop = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblCharacterCount = new System.Windows.Forms.Label();
             this.btnNewFile = new FontAwesome.Sharp.IconButton();
+            this.btnNewKey = new FontAwesome.Sharp.IconButton();
             this.btnReloadFromDisk = new FontAwesome.Sharp.IconButton();
             this.btnSaveToDisk = new FontAwesome.Sharp.IconButton();
             this.label2 = new System.Windows.Forms.Label();
             this.currentLanguage = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.currentFile = new System.Windows.Forms.ComboBox();
-            this.panelBottom = new System.Windows.Forms.Panel();
             this.contentBox = new System.Windows.Forms.TextBox();
-            this.panelMiddle = new System.Windows.Forms.Panel();
             this.dataGridKeys = new System.Windows.Forms.DataGridView();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnNewKey = new FontAwesome.Sharp.IconButton();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panelTop.SuspendLayout();
-            this.panelBottom.SuspendLayout();
-            this.panelMiddle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.label3);
+            this.panelTop.Controls.Add(this.lblCharacterCount);
             this.panelTop.Controls.Add(this.btnNewFile);
+            this.panelTop.Controls.Add(this.btnNewKey);
             this.panelTop.Controls.Add(this.btnReloadFromDisk);
             this.panelTop.Controls.Add(this.btnSaveToDisk);
             this.panelTop.Controls.Add(this.label2);
@@ -65,6 +71,27 @@ namespace i18nEditor
             this.panelTop.Name = "panelTop";
             this.panelTop.Size = new System.Drawing.Size(800, 70);
             this.panelTop.TabIndex = 0;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(399, 39);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 15);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Longitud texto:";
+            // 
+            // lblCharacterCount
+            // 
+            this.lblCharacterCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCharacterCount.AutoSize = true;
+            this.lblCharacterCount.Location = new System.Drawing.Point(493, 39);
+            this.lblCharacterCount.Name = "lblCharacterCount";
+            this.lblCharacterCount.Size = new System.Drawing.Size(66, 15);
+            this.lblCharacterCount.TabIndex = 13;
+            this.lblCharacterCount.Text = "2048 / 2048";
+            this.lblCharacterCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnNewFile
             // 
@@ -81,6 +108,25 @@ namespace i18nEditor
             this.btnNewFile.TabIndex = 11;
             this.btnNewFile.TabStop = false;
             this.btnNewFile.UseVisualStyleBackColor = true;
+            // 
+            // btnNewKey
+            // 
+            this.btnNewKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNewKey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnNewKey.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNewKey.IconChar = FontAwesome.Sharp.IconChar.PlusCircle;
+            this.btnNewKey.IconColor = System.Drawing.Color.MediumSeaGreen;
+            this.btnNewKey.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            this.btnNewKey.IconSize = 24;
+            this.btnNewKey.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnNewKey.Location = new System.Drawing.Point(563, 25);
+            this.btnNewKey.Name = "btnNewKey";
+            this.btnNewKey.Size = new System.Drawing.Size(108, 32);
+            this.btnNewKey.TabIndex = 10;
+            this.btnNewKey.TabStop = false;
+            this.btnNewKey.Text = "Nueva clave";
+            this.btnNewKey.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNewKey.UseVisualStyleBackColor = true;
             // 
             // btnReloadFromDisk
             // 
@@ -158,36 +204,16 @@ namespace i18nEditor
             this.currentFile.Size = new System.Drawing.Size(239, 23);
             this.currentFile.TabIndex = 0;
             // 
-            // panelBottom
-            // 
-            this.panelBottom.Controls.Add(this.contentBox);
-            this.panelBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelBottom.Location = new System.Drawing.Point(0, 320);
-            this.panelBottom.Name = "panelBottom";
-            this.panelBottom.Size = new System.Drawing.Size(800, 241);
-            this.panelBottom.TabIndex = 2;
-            // 
             // contentBox
             // 
-            this.contentBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.contentBox.Location = new System.Drawing.Point(12, 6);
+            this.contentBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.contentBox.Location = new System.Drawing.Point(0, 0);
             this.contentBox.MaxLength = 2048;
             this.contentBox.Multiline = true;
             this.contentBox.Name = "contentBox";
-            this.contentBox.Size = new System.Drawing.Size(773, 223);
+            this.contentBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.contentBox.Size = new System.Drawing.Size(773, 234);
             this.contentBox.TabIndex = 0;
-            // 
-            // panelMiddle
-            // 
-            this.panelMiddle.Controls.Add(this.dataGridKeys);
-            this.panelMiddle.Controls.Add(this.btnNewKey);
-            this.panelMiddle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMiddle.Location = new System.Drawing.Point(0, 70);
-            this.panelMiddle.Name = "panelMiddle";
-            this.panelMiddle.Size = new System.Drawing.Size(800, 250);
-            this.panelMiddle.TabIndex = 3;
             // 
             // dataGridKeys
             // 
@@ -195,9 +221,6 @@ namespace i18nEditor
             this.dataGridKeys.AllowUserToDeleteRows = false;
             this.dataGridKeys.AllowUserToResizeColumns = false;
             this.dataGridKeys.AllowUserToResizeRows = false;
-            this.dataGridKeys.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridKeys.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dataGridKeys.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
             this.dataGridKeys.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
@@ -205,7 +228,8 @@ namespace i18nEditor
             this.dataGridKeys.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Key,
             this.Content});
-            this.dataGridKeys.Location = new System.Drawing.Point(12, 41);
+            this.dataGridKeys.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridKeys.Location = new System.Drawing.Point(0, 0);
             this.dataGridKeys.MultiSelect = false;
             this.dataGridKeys.Name = "dataGridKeys";
             this.dataGridKeys.ReadOnly = true;
@@ -215,7 +239,7 @@ namespace i18nEditor
             this.dataGridKeys.ShowCellToolTips = false;
             this.dataGridKeys.ShowEditingIcon = false;
             this.dataGridKeys.ShowRowErrors = false;
-            this.dataGridKeys.Size = new System.Drawing.Size(773, 203);
+            this.dataGridKeys.Size = new System.Drawing.Size(773, 235);
             this.dataGridKeys.TabIndex = 0;
             this.dataGridKeys.TabStop = false;
             // 
@@ -242,32 +266,35 @@ namespace i18nEditor
             this.Content.ReadOnly = true;
             this.Content.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // btnNewKey
+            // splitContainer1
             // 
-            this.btnNewKey.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNewKey.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnNewKey.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewKey.IconChar = FontAwesome.Sharp.IconChar.PlusCircle;
-            this.btnNewKey.IconColor = System.Drawing.Color.MediumSeaGreen;
-            this.btnNewKey.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            this.btnNewKey.IconSize = 24;
-            this.btnNewKey.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnNewKey.Location = new System.Drawing.Point(677, 6);
-            this.btnNewKey.Name = "btnNewKey";
-            this.btnNewKey.Size = new System.Drawing.Size(108, 32);
-            this.btnNewKey.TabIndex = 10;
-            this.btnNewKey.TabStop = false;
-            this.btnNewKey.Text = "Nueva clave";
-            this.btnNewKey.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnNewKey.UseVisualStyleBackColor = true;
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(12, 76);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridKeys);
+            this.splitContainer1.Panel1MinSize = 150;
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.contentBox);
+            this.splitContainer1.Panel2MinSize = 150;
+            this.splitContainer1.Size = new System.Drawing.Size(773, 473);
+            this.splitContainer1.SplitterDistance = 235;
+            this.splitContainer1.TabIndex = 1;
+            this.splitContainer1.TabStop = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 561);
-            this.Controls.Add(this.panelMiddle);
-            this.Controls.Add(this.panelBottom);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panelTop);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(800, 600);
@@ -276,10 +303,12 @@ namespace i18nEditor
             this.Text = "MainForm";
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
-            this.panelBottom.ResumeLayout(false);
-            this.panelBottom.PerformLayout();
-            this.panelMiddle.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -287,7 +316,6 @@ namespace i18nEditor
         #endregion
 
         private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.Panel panelBottom;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox currentFile;
         private System.Windows.Forms.Label label2;
@@ -296,10 +324,12 @@ namespace i18nEditor
         private FontAwesome.Sharp.IconButton btnReloadFromDisk;
         private FontAwesome.Sharp.IconButton btnSaveToDisk;
         private System.Windows.Forms.TextBox contentBox;
-        private System.Windows.Forms.Panel panelMiddle;
         private System.Windows.Forms.DataGridView dataGridKeys;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Content;
         private FontAwesome.Sharp.IconButton btnNewKey;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label lblCharacterCount;
+        private System.Windows.Forms.Label label3;
     }
 }

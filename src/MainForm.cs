@@ -38,8 +38,31 @@ namespace i18nEditor
             btnSaveToDisk.Click += BtnSaveToDisk_Click;
 
             dataGridKeys.SelectionChanged += DataGridKeys_SelectionChanged;
+            contentBox.Leave += ContentBox_Leave;
+            contentBox.KeyUp += ContentBox_KeyUp;
+            contentBox.TextChanged += ContentBox_TextChanged;
 
             RefreshFiles();
+        }
+
+        private void SetLabelCountCharacters()
+        {
+            lblCharacterCount.Text = $"{contentBox.Text?.Length ?? 0} / 2048";
+        }
+
+        private void ContentBox_TextChanged(object sender, EventArgs e)
+        {
+            SetLabelCountCharacters();
+        }
+
+        private void ContentBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            SetLabelCountCharacters();
+        }
+
+        private void ContentBox_Leave(object sender, EventArgs e)
+        {
+            SetContentBoxToValue();
         }
 
         #region Grid events
@@ -313,7 +336,7 @@ namespace i18nEditor
         {
             if (_lastRowIndex >= 0)
             {
-                dataGridKeys.Rows[_lastRowIndex].Cells[1].Value = contentBox.Text?.Replace(Environment.NewLine, "\n");
+                dataGridKeys.Rows[_lastRowIndex].Cells[1].Value = contentBox.Text?.Replace(@"\n", "\n").Replace(Environment.NewLine, "\n");
             }
         }
     }
