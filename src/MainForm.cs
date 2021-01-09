@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,6 +13,8 @@ namespace i18nEditor
 {
     public partial class MainForm : Form
     {
+        private static Regex ParametersRegex = new Regex(@"\{[0-9]\}", RegexOptions.Multiline);
+
         private int _lastRowIndex = -1;
         private bool _loopFlag = false;
         private readonly IFileService _fileService;
@@ -43,6 +46,12 @@ namespace i18nEditor
             contentBox.TextChanged += ContentBox_TextChanged;
 
             RefreshFiles();
+        }
+
+        private string CountTextParameters(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return "0";
+            return ParametersRegex.Matches(text).Count.ToString();
         }
 
         private void SetLabelCountCharacters()
@@ -125,7 +134,7 @@ namespace i18nEditor
                 // Comprobamos que no esté ya
                 foreach (DataGridViewRow row in dataGridKeys.Rows)
                 {
-                    var key = row.Cells[0].Value?.ToString();
+                    var key = row.Cells[1].Value?.ToString();
                     if (key != null && key.ToLower() == name.ToLower())
                     {
                         MessageBox.Show("Esa clave ya existe");
@@ -133,7 +142,7 @@ namespace i18nEditor
                     }
                 }
 
-                dataGridKeys.Rows.Add(name, "");
+                dataGridKeys.Rows.Add("0", name, "");
                 var data = ConvertDataGridToDictionary();
                 Task.Factory.StartNew(async () =>
                 {
@@ -220,8 +229,9 @@ namespace i18nEditor
                     foreach (var item in data)
                     {
                         var row = dataGridKeys.Rows.Add();
-                        dataGridKeys.Rows[row].Cells[0].Value = item.Key;
-                        dataGridKeys.Rows[row].Cells[1].Value = item.Value;
+                        dataGridKeys.Rows[row].Cells[0].Value = CountTextParameters(item.Value);
+                        dataGridKeys.Rows[row].Cells[1].Value = item.Key;
+                        dataGridKeys.Rows[row].Cells[2].Value = item.Value;
                     }
 
                     SetValueToContentBox();
@@ -246,8 +256,8 @@ namespace i18nEditor
 
             foreach (DataGridViewRow row in dataGridKeys.Rows)
             {
-                var key = row.Cells[0].Value?.ToString();
-                var value = row.Cells[1].Value?.ToString();
+                var key = row.Cells[1].Value?.ToString();
+                var value = row.Cells[2].Value?.ToString();
                 data.Add(key, value);
             }
 
@@ -327,7 +337,7 @@ namespace i18nEditor
 
             var row = dataGridKeys.SelectedRows[0];
             _lastRowIndex = row.Index;
-            var cellValue = row.Cells[1].Value?.ToString();
+            var cellValue = row.Cells[2].Value?.ToString();
             cellValue = cellValue?.Replace("\n", Environment.NewLine);
             contentBox.Text = cellValue;
         }
@@ -336,7 +346,9 @@ namespace i18nEditor
         {
             if (_lastRowIndex >= 0)
             {
-                dataGridKeys.Rows[_lastRowIndex].Cells[1].Value = contentBox.Text?.Replace(@"\n", "\n").Replace(Environment.NewLine, "\n");
+                var settedText = contentBox.Text?.Replace(@"\n", "\n").Replace(Environment.NewLine, "\n");
+                dataGridKeys.Rows[_lastRowIndex].Cells[0].Value = CountTextParameters(settedText);
+                dataGridKeys.Rows[_lastRowIndex].Cells[2].Value = settedText;
             }
         }
     }

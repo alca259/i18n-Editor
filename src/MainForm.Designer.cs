@@ -43,9 +43,10 @@ namespace i18nEditor
             this.currentFile = new System.Windows.Forms.ComboBox();
             this.contentBox = new System.Windows.Forms.TextBox();
             this.dataGridKeys = new System.Windows.Forms.DataGridView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.Parametros = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -226,6 +227,7 @@ namespace i18nEditor
             this.dataGridKeys.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.dataGridKeys.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridKeys.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Parametros,
             this.Key,
             this.Content});
             this.dataGridKeys.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -242,29 +244,6 @@ namespace i18nEditor
             this.dataGridKeys.Size = new System.Drawing.Size(773, 235);
             this.dataGridKeys.TabIndex = 0;
             this.dataGridKeys.TabStop = false;
-            // 
-            // Key
-            // 
-            this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Key.FillWeight = 70F;
-            this.Key.HeaderText = "Clave";
-            this.Key.MaxInputLength = 1000;
-            this.Key.MinimumWidth = 430;
-            this.Key.Name = "Key";
-            this.Key.ReadOnly = true;
-            this.Key.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Key.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Content
-            // 
-            this.Content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Content.FillWeight = 30F;
-            this.Content.HeaderText = "Contenido";
-            this.Content.MaxInputLength = 2000;
-            this.Content.MinimumWidth = 300;
-            this.Content.Name = "Content";
-            this.Content.ReadOnly = true;
-            this.Content.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // splitContainer1
             // 
@@ -288,6 +267,41 @@ namespace i18nEditor
             this.splitContainer1.SplitterDistance = 235;
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.TabStop = false;
+            // 
+            // Parametros
+            // 
+            this.Parametros.FillWeight = 40F;
+            this.Parametros.HeaderText = "Num Par";
+            this.Parametros.MaxInputLength = 2000;
+            this.Parametros.MinimumWidth = 40;
+            this.Parametros.Name = "Parametros";
+            this.Parametros.ReadOnly = true;
+            this.Parametros.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Parametros.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Parametros.Width = 60;
+            // 
+            // Key
+            // 
+            this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Key.FillWeight = 40F;
+            this.Key.HeaderText = "Clave";
+            this.Key.MaxInputLength = 1000;
+            this.Key.MinimumWidth = 250;
+            this.Key.Name = "Key";
+            this.Key.ReadOnly = true;
+            this.Key.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Key.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Content
+            // 
+            this.Content.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Content.FillWeight = 60F;
+            this.Content.HeaderText = "Contenido";
+            this.Content.MaxInputLength = 2048;
+            this.Content.MinimumWidth = 300;
+            this.Content.Name = "Content";
+            this.Content.ReadOnly = true;
+            this.Content.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MainForm
             // 
@@ -325,11 +339,12 @@ namespace i18nEditor
         private FontAwesome.Sharp.IconButton btnSaveToDisk;
         private System.Windows.Forms.TextBox contentBox;
         private System.Windows.Forms.DataGridView dataGridKeys;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Key;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Content;
         private FontAwesome.Sharp.IconButton btnNewKey;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Label lblCharacterCount;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Parametros;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Key;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Content;
     }
 }
