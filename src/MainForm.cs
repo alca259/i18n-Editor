@@ -51,7 +51,14 @@ namespace i18nEditor
         private string CountTextParameters(string text)
         {
             if (string.IsNullOrEmpty(text)) return "0";
-            return ParametersRegex.Matches(text).Count.ToString();
+            var matches = ParametersRegex.Matches(text);
+            var uniqueMatches = matches
+                .OfType<Match>()
+                .Select(m => m.Value)
+                .Distinct()
+                .Count();
+
+            return uniqueMatches.ToString();
         }
 
         private void SetLabelCountCharacters()
