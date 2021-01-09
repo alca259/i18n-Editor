@@ -74,6 +74,11 @@ namespace i18nEditor
                 Task.Factory.StartNew(async () =>
                 {
                     await _fileService.NewFile(name, language);
+                    Invoke((MethodInvoker)delegate
+                    {
+                        currentFile.Text = name;
+                        currentLanguage.Text = language;
+                    });
                     RefreshFiles();
                     ReloadFromDisk();
                 });
@@ -272,8 +277,25 @@ namespace i18nEditor
 
         private void SetFileSet()
         {
+            string currentFileText = "";
+            string currentLanguageText = "";
+
             // Set current file set
-            FileSet = FilesFound.FirstOrDefault(f => f.DisplayName == currentFile.Text && f.Language == currentLanguage.Text);
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    currentFileText = currentFile.Text;
+                    currentLanguageText = currentLanguage.Text;
+                });
+            }
+            else
+            {
+                currentFileText = currentFile.Text;
+                currentLanguageText = currentLanguage.Text;
+            }
+
+            FileSet = FilesFound.FirstOrDefault(f => f.DisplayName == currentFileText && f.Language == currentLanguageText);
         }
 
         private void SetValueToContentBox()

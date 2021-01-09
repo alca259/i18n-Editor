@@ -13,6 +13,7 @@ namespace i18nEditor.Services.Implementations
 {
     public class FileService : IFileService
     {
+        private const string DefaultLanguage = "es-ES";
         private readonly IOptionsMonitor<EditorConfigDto> _options;
         private EditorConfigDto Options => _options.CurrentValue;
 
@@ -30,7 +31,7 @@ namespace i18nEditor.Services.Implementations
             foreach (var file in files)
             {
                 var displayName = Path.GetFileNameWithoutExtension(file.FullName);
-                var language = "es-ES";
+                var language = DefaultLanguage;
 
                 int lastIndexOfDot = displayName.LastIndexOf('.');
                 if (lastIndexOfDot != -1)
@@ -80,7 +81,16 @@ namespace i18nEditor.Services.Implementations
             var filePath = Path.Combine(Options.FolderPath, fileName);
             if (File.Exists(filePath)) return;
 
-            await File.WriteAllTextAsync(filePath, "{}", Encoding.Latin1);
+            var content = "{}";
+
+            var mainFileName = $"{name}.{DefaultLanguage}.json";
+            var mainFilePath = Path.Combine(Options.FolderPath, mainFileName);
+            if (File.Exists(mainFilePath))
+            {
+                content = await File.ReadAllTextAsync(mainFilePath, Encoding.Latin1);
+            }
+
+            await File.WriteAllTextAsync(filePath, content, Encoding.Latin1);
         }
 
         private string CustomJsonSerialize<T>(T value, char indentChar = ' ', int indentation = 4)
