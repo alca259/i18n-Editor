@@ -23,6 +23,8 @@ namespace i18nEditor
         private IEnumerable<FileKeyPathDto> FilesFound { get; set; } = new List<FileKeyPathDto>();
         private FileKeyPathDto FileSet { get; set; }
 
+        private InputBox SearchInputBox { get; }
+
         public MainForm(IFileService fileService, ILogger<MainForm> logger)
         {
             InitializeComponent();
@@ -47,8 +49,39 @@ namespace i18nEditor
 
             dataGridKeys.CellMouseDown += DataGridKeys_CellMouseDown;
 
+            dataGridKeys.KeyDown += Search_KeyDown;
+
+            SearchInputBox = new InputBox();
+
             RefreshFiles();
         }
+
+        #region Search events
+        private void Search_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.F)
+            {
+                var result = SearchInputBox.ShowDialog();
+                if (result != DialogResult.OK) return;
+                if (string.IsNullOrEmpty(SearchInputBox.SearchedText)) return;
+
+                int searchIndex = SearchInDatagrid(SearchInputBox.SearchedText);
+                if (searchIndex < 0) return;
+                dataGridKeys.CurrentCell = dataGridKeys.Rows[searchIndex].Cells[0];
+            }
+        }
+
+        private int SearchInDatagrid(string text)
+        {
+            foreach (DataGridViewRow row in dataGridKeys.Rows)
+            {
+                var value = row.Cells[2].Value?.ToString();
+                if (value != null && value.ToLower().Contains(text.ToLower())) return row.Index;
+            }
+
+            return -1;
+        }
+        #endregion
 
         #region Copy key cell event
         private void DataGridKeys_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
