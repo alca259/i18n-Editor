@@ -43,10 +43,11 @@ namespace i18nEditor
             this.currentFile = new System.Windows.Forms.ComboBox();
             this.contentBox = new System.Windows.Forms.TextBox();
             this.dataGridKeys = new System.Windows.Forms.DataGridView();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.Parametros = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Content = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label4 = new System.Windows.Forms.Label();
             this.panelTop.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -57,6 +58,7 @@ namespace i18nEditor
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.label4);
             this.panelTop.Controls.Add(this.label3);
             this.panelTop.Controls.Add(this.lblCharacterCount);
             this.panelTop.Controls.Add(this.btnNewFile);
@@ -245,29 +247,6 @@ namespace i18nEditor
             this.dataGridKeys.TabIndex = 0;
             this.dataGridKeys.TabStop = false;
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(12, 76);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.dataGridKeys);
-            this.splitContainer1.Panel1MinSize = 150;
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.contentBox);
-            this.splitContainer1.Panel2MinSize = 150;
-            this.splitContainer1.Size = new System.Drawing.Size(773, 473);
-            this.splitContainer1.SplitterDistance = 235;
-            this.splitContainer1.TabIndex = 1;
-            this.splitContainer1.TabStop = false;
-            // 
             // Parametros
             // 
             this.Parametros.FillWeight = 40F;
@@ -303,6 +282,41 @@ namespace i18nEditor
             this.Content.ReadOnly = true;
             this.Content.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(12, 76);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dataGridKeys);
+            this.splitContainer1.Panel1MinSize = 150;
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.contentBox);
+            this.splitContainer1.Panel2MinSize = 150;
+            this.splitContainer1.Size = new System.Drawing.Size(773, 473);
+            this.splitContainer1.SplitterDistance = 235;
+            this.splitContainer1.TabIndex = 1;
+            this.splitContainer1.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label4.Location = new System.Drawing.Point(451, 7);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(334, 15);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Sobre el listado: Ctrl + F = Buscar | F3 = Siguiente resultado";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -314,7 +328,7 @@ namespace i18nEditor
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MainForm";
+            this.Text = "i18n Editor";
             this.panelTop.ResumeLayout(false);
             this.panelTop.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridKeys)).EndInit();
@@ -346,5 +360,6 @@ namespace i18nEditor
         private System.Windows.Forms.DataGridViewTextBoxColumn Parametros;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
         private System.Windows.Forms.DataGridViewTextBoxColumn Content;
+        private System.Windows.Forms.Label label4;
     }
 }

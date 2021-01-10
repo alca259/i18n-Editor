@@ -24,6 +24,7 @@ namespace i18nEditor
         private FileKeyPathDto FileSet { get; set; }
 
         private InputBox SearchInputBox { get; }
+        private int _lastSearchedIndex;
 
         public MainForm(IFileService fileService, ILogger<MainForm> logger)
         {
@@ -68,6 +69,17 @@ namespace i18nEditor
                 int searchIndex = SearchInDatagrid(SearchInputBox.SearchedText);
                 if (searchIndex < 0) return;
                 dataGridKeys.CurrentCell = dataGridKeys.Rows[searchIndex].Cells[0];
+                _lastSearchedIndex = searchIndex;
+            }
+
+            // Next search
+            if (e.KeyCode == Keys.F3)
+            {
+                if (string.IsNullOrEmpty(SearchInputBox.SearchedText)) return;
+                int searchIndex = SearchInDatagrid(SearchInputBox.SearchedText);
+                if (searchIndex < 0) return;
+                dataGridKeys.CurrentCell = dataGridKeys.Rows[searchIndex].Cells[0];
+                _lastSearchedIndex = searchIndex;
             }
         }
 
@@ -76,7 +88,11 @@ namespace i18nEditor
             foreach (DataGridViewRow row in dataGridKeys.Rows)
             {
                 var value = row.Cells[2].Value?.ToString();
-                if (value != null && value.ToLower().Contains(text.ToLower())) return row.Index;
+                if (value != null && value.ToLower().Contains(text.ToLower()))
+                {
+                    if (_lastSearchedIndex == row.Index) continue;
+                    return row.Index;
+                }
             }
 
             return -1;
@@ -87,7 +103,11 @@ namespace i18nEditor
         private void DataGridKeys_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex <= -1) return;
-            if (e.Button != MouseButtons.Right) return;
+            if (e.Button != MouseButtons.Right)
+            {
+                if (e.Button == MouseButtons.Left) _lastSearchedIndex = e.RowIndex;
+                return;
+            }
             var key = dataGridKeys.Rows[e.RowIndex].Cells[1].Value?.ToString();
             Clipboard.SetDataObject(key, false);
         }
