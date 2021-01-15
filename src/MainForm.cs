@@ -64,30 +64,21 @@ namespace i18nEditor
             {
                 var result = SearchInputBox.ShowDialog();
                 if (result != DialogResult.OK) return;
-                if (string.IsNullOrEmpty(SearchInputBox.SearchedText)) return;
-
-                int searchIndex = SearchInDatagrid(SearchInputBox.SearchedText);
-                if (searchIndex < 0) return;
-                dataGridKeys.CurrentCell = dataGridKeys.Rows[searchIndex].Cells[0];
-                _lastSearchedIndex = searchIndex;
+                if (!SearchAndGoToCell(SearchInputBox.SearchedText, SearchInputBox.SearchBy)) return;
             }
 
             // Next search
             if (e.KeyCode == Keys.F3)
             {
-                if (string.IsNullOrEmpty(SearchInputBox.SearchedText)) return;
-                int searchIndex = SearchInDatagrid(SearchInputBox.SearchedText);
-                if (searchIndex < 0) return;
-                dataGridKeys.CurrentCell = dataGridKeys.Rows[searchIndex].Cells[0];
-                _lastSearchedIndex = searchIndex;
+                if (!SearchAndGoToCell(SearchInputBox.SearchedText, SearchInputBox.SearchBy)) return;
             }
         }
 
-        private int SearchInDatagrid(string text)
+        private int SearchInDatagrid(string text, int byIndex = 2)
         {
             foreach (DataGridViewRow row in dataGridKeys.Rows)
             {
-                var value = row.Cells[2].Value?.ToString();
+                var value = row.Cells[byIndex].Value?.ToString();
                 if (value != null && value.ToLower().Contains(text.ToLower()))
                 {
                     if (_lastSearchedIndex == row.Index) continue;
@@ -96,6 +87,16 @@ namespace i18nEditor
             }
 
             return -1;
+        }
+
+        private bool SearchAndGoToCell(string text, int byIndex = 2)
+        {
+            if (string.IsNullOrEmpty(text)) return false;
+            int searchIndex = SearchInDatagrid(text, byIndex);
+            if (searchIndex < 0) return false;
+            dataGridKeys.CurrentCell = dataGridKeys.Rows[searchIndex].Cells[0];
+            _lastSearchedIndex = searchIndex;
+            return true;
         }
         #endregion
 
@@ -203,7 +204,7 @@ namespace i18nEditor
                 Task.Factory.StartNew(async () =>
                 {
                     await _fileService.SaveJsonData(FileSet, data);
-                    ReloadFromDisk();
+                    ReloadFromDisk(name);
                 });
             }
         }
@@ -271,7 +272,7 @@ namespace i18nEditor
             }
         }
 
-        private void ReloadFromDisk()
+        private void ReloadFromDisk(string addedKey = null)
         {
             SetFileSet();
             if (FileSet == null) return;
@@ -292,6 +293,11 @@ namespace i18nEditor
                     }
 
                     SetValueToContentBox();
+
+                    if (!string.IsNullOrEmpty(addedKey))
+                    {
+                        SearchAndGoToCell(addedKey, 1);
+                    }
                 });
             });
         }
