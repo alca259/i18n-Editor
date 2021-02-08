@@ -26,6 +26,9 @@ namespace i18nEditor
         private InputBox SearchInputBox { get; }
         private int _lastSearchedIndex;
 
+        private DataGridViewCellStyle _unfilledCellStyle = new DataGridViewCellStyle() { BackColor = System.Drawing.Color.Red };
+        private DataGridViewCellStyle _filledCellStyle = new DataGridViewCellStyle() { BackColor = System.Drawing.Color.White };
+
         public MainForm(IFileService fileService, ILogger<MainForm> logger)
         {
             InitializeComponent();
@@ -290,12 +293,14 @@ namespace i18nEditor
                         dataGridKeys.Rows[row].Cells[0].Value = CountTextParameters(item.Value);
                         dataGridKeys.Rows[row].Cells[1].Value = item.Key;
                         dataGridKeys.Rows[row].Cells[2].Value = item.Value;
+                        FillRow(row);
                     }
 
                     SetValueToContentBox();
 
                     if (!string.IsNullOrEmpty(addedKey))
                     {
+                        _lastRowIndex = 0;
                         SearchAndGoToCell(addedKey, 1);
                     }
                 });
@@ -412,6 +417,7 @@ namespace i18nEditor
                 var settedText = contentBox.Text?.Replace(@"\n", "\n").Replace(Environment.NewLine, "\n");
                 dataGridKeys.Rows[_lastRowIndex].Cells[0].Value = CountTextParameters(settedText);
                 dataGridKeys.Rows[_lastRowIndex].Cells[2].Value = settedText;
+                FillRow(_lastRowIndex);
             }
         }
 
@@ -426,6 +432,38 @@ namespace i18nEditor
                 .Count();
 
             return uniqueMatches.ToString();
+        }
+
+        private void FillRow(int rowIndex)
+        {
+            if (rowIndex <= -1) return;
+
+            if (dataGridKeys.InvokeRequired)
+            {
+                dataGridKeys.Invoke((MethodInvoker)delegate
+                {
+                    try
+                    {
+                        var style = string.IsNullOrEmpty(dataGridKeys.Rows[rowIndex].Cells[2].Value.ToString()) ? _unfilledCellStyle : _filledCellStyle;
+                        foreach (DataGridViewCell cell in dataGridKeys.Rows[rowIndex].Cells)
+                        {
+                            cell.Style = style;
+                        }
+                    }
+                    finally { }
+                });
+                return;
+            }
+
+            try
+            {
+                var style = string.IsNullOrEmpty(dataGridKeys.Rows[rowIndex].Cells[2].Value.ToString()) ? _unfilledCellStyle : _filledCellStyle;
+                foreach (DataGridViewCell cell in dataGridKeys.Rows[rowIndex].Cells)
+                {
+                    cell.Style = style;
+                }
+            }
+            finally { }
         }
 
         private void SetLabelCountCharacters()
